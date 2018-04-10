@@ -8,16 +8,16 @@
 package salas_usuarios.sap.document.sap_com;
 
 public class DT_USUARIO_RES  implements java.io.Serializable {
-    private salas_usuarios.sap.document.sap_com.DT_USUARIO_RESRETURN[] RETURN;
+    private salas_usuarios.sap.document.sap_com.DT_USUARIO_RESRETURNItem[] RETURN;
 
-    private salas_usuarios.sap.document.sap_com.DT_USUARIO_RESSALAS[] SALAS;
+    private salas_usuarios.sap.document.sap_com.DT_USUARIO_RESSALASItem[] SALAS;
 
     public DT_USUARIO_RES() {
     }
 
     public DT_USUARIO_RES(
-           salas_usuarios.sap.document.sap_com.DT_USUARIO_RESRETURN[] RETURN,
-           salas_usuarios.sap.document.sap_com.DT_USUARIO_RESSALAS[] SALAS) {
+           salas_usuarios.sap.document.sap_com.DT_USUARIO_RESRETURNItem[] RETURN,
+           salas_usuarios.sap.document.sap_com.DT_USUARIO_RESSALASItem[] SALAS) {
            this.RETURN = RETURN;
            this.SALAS = SALAS;
     }
@@ -28,7 +28,7 @@ public class DT_USUARIO_RES  implements java.io.Serializable {
      * 
      * @return RETURN
      */
-    public salas_usuarios.sap.document.sap_com.DT_USUARIO_RESRETURN[] getRETURN() {
+    public salas_usuarios.sap.document.sap_com.DT_USUARIO_RESRETURNItem[] getRETURN() {
         return RETURN;
     }
 
@@ -38,16 +38,8 @@ public class DT_USUARIO_RES  implements java.io.Serializable {
      * 
      * @param RETURN
      */
-    public void setRETURN(salas_usuarios.sap.document.sap_com.DT_USUARIO_RESRETURN[] RETURN) {
+    public void setRETURN(salas_usuarios.sap.document.sap_com.DT_USUARIO_RESRETURNItem[] RETURN) {
         this.RETURN = RETURN;
-    }
-
-    public salas_usuarios.sap.document.sap_com.DT_USUARIO_RESRETURN getRETURN(int i) {
-        return this.RETURN[i];
-    }
-
-    public void setRETURN(int i, salas_usuarios.sap.document.sap_com.DT_USUARIO_RESRETURN _value) {
-        this.RETURN[i] = _value;
     }
 
 
@@ -56,7 +48,7 @@ public class DT_USUARIO_RES  implements java.io.Serializable {
      * 
      * @return SALAS
      */
-    public salas_usuarios.sap.document.sap_com.DT_USUARIO_RESSALAS[] getSALAS() {
+    public salas_usuarios.sap.document.sap_com.DT_USUARIO_RESSALASItem[] getSALAS() {
         return SALAS;
     }
 
@@ -66,16 +58,8 @@ public class DT_USUARIO_RES  implements java.io.Serializable {
      * 
      * @param SALAS
      */
-    public void setSALAS(salas_usuarios.sap.document.sap_com.DT_USUARIO_RESSALAS[] SALAS) {
+    public void setSALAS(salas_usuarios.sap.document.sap_com.DT_USUARIO_RESSALASItem[] SALAS) {
         this.SALAS = SALAS;
-    }
-
-    public salas_usuarios.sap.document.sap_com.DT_USUARIO_RESSALAS getSALAS(int i) {
-        return this.SALAS[i];
-    }
-
-    public void setSALAS(int i, salas_usuarios.sap.document.sap_com.DT_USUARIO_RESSALAS _value) {
-        this.SALAS[i] = _value;
     }
 
     private java.lang.Object __equalsCalc = null;
@@ -142,18 +126,18 @@ public class DT_USUARIO_RES  implements java.io.Serializable {
         org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("RETURN");
         elemField.setXmlName(new javax.xml.namespace.QName("", "RETURN"));
-        elemField.setXmlType(new javax.xml.namespace.QName("unr:sap-com:document:sap:salas_usuarios", ">DT_USUARIO_RES>RETURN"));
+        elemField.setXmlType(new javax.xml.namespace.QName("unr:sap-com:document:sap:salas_usuarios", ">>DT_USUARIO_RES>RETURN>item"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
-        elemField.setMaxOccursUnbounded(true);
+        elemField.setItemQName(new javax.xml.namespace.QName("", "item"));
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("SALAS");
         elemField.setXmlName(new javax.xml.namespace.QName("", "SALAS"));
-        elemField.setXmlType(new javax.xml.namespace.QName("unr:sap-com:document:sap:salas_usuarios", ">DT_USUARIO_RES>SALAS"));
+        elemField.setXmlType(new javax.xml.namespace.QName("unr:sap-com:document:sap:salas_usuarios", ">>DT_USUARIO_RES>SALAS>item"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
-        elemField.setMaxOccursUnbounded(true);
+        elemField.setItemQName(new javax.xml.namespace.QName("", "item"));
         typeDesc.addFieldDesc(elemField);
     }
 

@@ -7,12 +7,6 @@
 
 package salas_usuarios.sap.document.sap_com;
 
-import java.util.Base64;
-
-import org.apache.axis.message.SOAPHeaderElement;
-
-import sun.misc.BASE64Encoder;
-
 public class SI_USUARIOSALA_SOBindingStub extends org.apache.axis.client.Stub implements salas_usuarios.sap.document.sap_com.SI_USUARIOSALA_SO {
     private java.util.Vector cachedSerClasses = new java.util.Vector();
     private java.util.Vector cachedSerQNames = new java.util.Vector();
@@ -77,19 +71,37 @@ public class SI_USUARIOSALA_SOBindingStub extends org.apache.axis.client.Stub im
             java.lang.Class simpledf = org.apache.axis.encoding.ser.SimpleDeserializerFactory.class;
             java.lang.Class simplelistsf = org.apache.axis.encoding.ser.SimpleListSerializerFactory.class;
             java.lang.Class simplelistdf = org.apache.axis.encoding.ser.SimpleListDeserializerFactory.class;
-            qName = new javax.xml.namespace.QName("unr:sap-com:document:sap:salas_usuarios", ">DT_USUARIO_RES>RETURN");
+            qName = new javax.xml.namespace.QName("unr:sap-com:document:sap:salas_usuarios", ">>DT_USUARIO_RES>RETURN>item");
             cachedSerQNames.add(qName);
-            cls = salas_usuarios.sap.document.sap_com.DT_USUARIO_RESRETURN.class;
+            cls = salas_usuarios.sap.document.sap_com.DT_USUARIO_RESRETURNItem.class;
             cachedSerClasses.add(cls);
             cachedSerFactories.add(beansf);
             cachedDeserFactories.add(beandf);
 
-            qName = new javax.xml.namespace.QName("unr:sap-com:document:sap:salas_usuarios", ">DT_USUARIO_RES>SALAS");
+            qName = new javax.xml.namespace.QName("unr:sap-com:document:sap:salas_usuarios", ">>DT_USUARIO_RES>SALAS>item");
             cachedSerQNames.add(qName);
-            cls = salas_usuarios.sap.document.sap_com.DT_USUARIO_RESSALAS.class;
+            cls = salas_usuarios.sap.document.sap_com.DT_USUARIO_RESSALASItem.class;
             cachedSerClasses.add(cls);
             cachedSerFactories.add(beansf);
             cachedDeserFactories.add(beandf);
+
+            qName = new javax.xml.namespace.QName("unr:sap-com:document:sap:salas_usuarios", ">DT_USUARIO_RES>RETURN");
+            cachedSerQNames.add(qName);
+            cls = salas_usuarios.sap.document.sap_com.DT_USUARIO_RESRETURNItem[].class;
+            cachedSerClasses.add(cls);
+            qName = new javax.xml.namespace.QName("unr:sap-com:document:sap:salas_usuarios", ">>DT_USUARIO_RES>RETURN>item");
+            qName2 = new javax.xml.namespace.QName("", "item");
+            cachedSerFactories.add(new org.apache.axis.encoding.ser.ArraySerializerFactory(qName, qName2));
+            cachedDeserFactories.add(new org.apache.axis.encoding.ser.ArrayDeserializerFactory());
+
+            qName = new javax.xml.namespace.QName("unr:sap-com:document:sap:salas_usuarios", ">DT_USUARIO_RES>SALAS");
+            cachedSerQNames.add(qName);
+            cls = salas_usuarios.sap.document.sap_com.DT_USUARIO_RESSALASItem[].class;
+            cachedSerClasses.add(cls);
+            qName = new javax.xml.namespace.QName("unr:sap-com:document:sap:salas_usuarios", ">>DT_USUARIO_RES>SALAS>item");
+            qName2 = new javax.xml.namespace.QName("", "item");
+            cachedSerFactories.add(new org.apache.axis.encoding.ser.ArraySerializerFactory(qName, qName2));
+            cachedDeserFactories.add(new org.apache.axis.encoding.ser.ArrayDeserializerFactory());
 
             qName = new javax.xml.namespace.QName("unr:sap-com:document:sap:salas_usuarios", "DT_USUARIO_REQ");
             cachedSerQNames.add(qName);
@@ -198,25 +210,8 @@ public class SI_USUARIOSALA_SOBindingStub extends org.apache.axis.client.Stub im
         }
         org.apache.axis.client.Call _call = createCall();
         
-        //SOAPHeaderElement auth = new SOAPHeaderElement("http://sap.com/xi/WebService/soap1.1", "Authentication");
-        //SOAPHeaderElement user = new SOAPHeaderElement("http://sap.com/xi/WebService/soap1.1", "Authorization", "Basic Q09ERVJFTUVYOmMwZDNyM18yMDE4");
-        
-        //_call.addHeader(user);
-        //_call.setUsername("CODEREMEX");
-        //_call.setPassword("c0d3r3_2018");
-        
-        _call.setProperty(org.apache.axis.client.Call.USERNAME_PROPERTY, "CODEREMEX");        
+        _call.setProperty(org.apache.axis.client.Call.USERNAME_PROPERTY, "CODEREMEX");
         _call.setProperty(org.apache.axis.client.Call.PASSWORD_PROPERTY, "c0d3r3_2018");
-        
-/*        String name = "CODEREMEX";
-        String password = "c0d3r3_2018";
-        String authString = name + ":" + password;
-        String authStringEnc = new BASE64Encoder().encode(authString.getBytes()); */
-//        ...
-//        objectXXX.header("Authorization", "Basic " + authStringEnc);
-        
-        
-        
         _call.setOperation(_operations[0]);
         _call.setUseSOAPAction(true);
         _call.setSOAPActionURI("http://sap.com/xi/WebService/soap1.1");
@@ -225,6 +220,7 @@ public class SI_USUARIOSALA_SOBindingStub extends org.apache.axis.client.Stub im
         _call.setProperty(org.apache.axis.AxisEngine.PROP_DOMULTIREFS, Boolean.FALSE);
         _call.setSOAPVersion(org.apache.axis.soap.SOAPConstants.SOAP11_CONSTANTS);
         _call.setOperationName(new javax.xml.namespace.QName("", "SI_USUARIOSALA_SO"));
+
         setRequestHeaders(_call);
         setAttachments(_call);
  try {        java.lang.Object _resp = _call.invoke(new java.lang.Object[] {MT_USUARIO_REQ});

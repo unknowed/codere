@@ -1,5 +1,5 @@
 /**
- * DT_USUARIO_RESSALAS.java
+ * DT_USUARIO_RESSALASItem.java
  *
  * This file was auto-generated from WSDL
  * by the Apache Axis 1.4 Apr 22, 2006 (06:55:48 PDT) WSDL2Java emitter.
@@ -7,17 +7,17 @@
 
 package salas_usuarios.sap.document.sap_com;
 
-public class DT_USUARIO_RESSALAS  implements java.io.Serializable {
+public class DT_USUARIO_RESSALASItem  implements java.io.Serializable {
     private java.lang.String USUARIO;
 
     private java.lang.String WERKS;
 
     private java.lang.String LGORT;
 
-    public DT_USUARIO_RESSALAS() {
+    public DT_USUARIO_RESSALASItem() {
     }
 
-    public DT_USUARIO_RESSALAS(
+    public DT_USUARIO_RESSALASItem(
            java.lang.String USUARIO,
            java.lang.String WERKS,
            java.lang.String LGORT) {
@@ -28,7 +28,7 @@ public class DT_USUARIO_RESSALAS  implements java.io.Serializable {
 
 
     /**
-     * Gets the USUARIO value for this DT_USUARIO_RESSALAS.
+     * Gets the USUARIO value for this DT_USUARIO_RESSALASItem.
      * 
      * @return USUARIO
      */
@@ -38,7 +38,7 @@ public class DT_USUARIO_RESSALAS  implements java.io.Serializable {
 
 
     /**
-     * Sets the USUARIO value for this DT_USUARIO_RESSALAS.
+     * Sets the USUARIO value for this DT_USUARIO_RESSALASItem.
      * 
      * @param USUARIO
      */
@@ -48,7 +48,7 @@ public class DT_USUARIO_RESSALAS  implements java.io.Serializable {
 
 
     /**
-     * Gets the WERKS value for this DT_USUARIO_RESSALAS.
+     * Gets the WERKS value for this DT_USUARIO_RESSALASItem.
      * 
      * @return WERKS
      */
@@ -58,7 +58,7 @@ public class DT_USUARIO_RESSALAS  implements java.io.Serializable {
 
 
     /**
-     * Sets the WERKS value for this DT_USUARIO_RESSALAS.
+     * Sets the WERKS value for this DT_USUARIO_RESSALASItem.
      * 
      * @param WERKS
      */
@@ -68,7 +68,7 @@ public class DT_USUARIO_RESSALAS  implements java.io.Serializable {
 
 
     /**
-     * Gets the LGORT value for this DT_USUARIO_RESSALAS.
+     * Gets the LGORT value for this DT_USUARIO_RESSALASItem.
      * 
      * @return LGORT
      */
@@ -78,7 +78,7 @@ public class DT_USUARIO_RESSALAS  implements java.io.Serializable {
 
 
     /**
-     * Sets the LGORT value for this DT_USUARIO_RESSALAS.
+     * Sets the LGORT value for this DT_USUARIO_RESSALASItem.
      * 
      * @param LGORT
      */
@@ -88,8 +88,8 @@ public class DT_USUARIO_RESSALAS  implements java.io.Serializable {
 
     private java.lang.Object __equalsCalc = null;
     public synchronized boolean equals(java.lang.Object obj) {
-        if (!(obj instanceof DT_USUARIO_RESSALAS)) return false;
-        DT_USUARIO_RESSALAS other = (DT_USUARIO_RESSALAS) obj;
+        if (!(obj instanceof DT_USUARIO_RESSALASItem)) return false;
+        DT_USUARIO_RESSALASItem other = (DT_USUARIO_RESSALASItem) obj;
         if (obj == null) return false;
         if (this == obj) return true;
         if (__equalsCalc != null) {
@@ -133,10 +133,10 @@ public class DT_USUARIO_RESSALAS  implements java.io.Serializable {
 
     // Type metadata
     private static org.apache.axis.description.TypeDesc typeDesc =
-        new org.apache.axis.description.TypeDesc(DT_USUARIO_RESSALAS.class, true);
+        new org.apache.axis.description.TypeDesc(DT_USUARIO_RESSALASItem.class, true);
 
     static {
-        typeDesc.setXmlType(new javax.xml.namespace.QName("unr:sap-com:document:sap:salas_usuarios", ">DT_USUARIO_RES>SALAS"));
+        typeDesc.setXmlType(new javax.xml.namespace.QName("unr:sap-com:document:sap:salas_usuarios", ">>DT_USUARIO_RES>SALAS>item"));
         org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("USUARIO");
         elemField.setXmlName(new javax.xml.namespace.QName("", "USUARIO"));

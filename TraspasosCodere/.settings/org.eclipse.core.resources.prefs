@@ -3,8 +3,8 @@ encoding//src/salas_usuarios/sap/document/sap_com/BC_APPTRASP_SI_USUARIOSALA_SO.
 encoding//src/salas_usuarios/sap/document/sap_com/BC_APPTRASP_SI_USUARIOSALA_SOLocator.java=UTF-8
 encoding//src/salas_usuarios/sap/document/sap_com/DT_USUARIO_REQ.java=UTF-8
 encoding//src/salas_usuarios/sap/document/sap_com/DT_USUARIO_RES.java=UTF-8
-encoding//src/salas_usuarios/sap/document/sap_com/DT_USUARIO_RESRETURN.java=UTF-8
-encoding//src/salas_usuarios/sap/document/sap_com/DT_USUARIO_RESSALAS.java=UTF-8
+encoding//src/salas_usuarios/sap/document/sap_com/DT_USUARIO_RESRETURNItem.java=UTF-8
+encoding//src/salas_usuarios/sap/document/sap_com/DT_USUARIO_RESSALASItem.java=UTF-8
 encoding//src/salas_usuarios/sap/document/sap_com/ExchangeFaultData.java=UTF-8
 encoding//src/salas_usuarios/sap/document/sap_com/ExchangeLogData.java=UTF-8
 encoding//src/salas_usuarios/sap/document/sap_com/SI_USUARIOSALA_SO.java=UTF-8

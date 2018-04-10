@@ -30,6 +30,11 @@
 	</natures>
 	<linkedResources>
 		<link>
+			<name>WebContent/WEB-INF/lib/gson-2.7.jar</name>
+			<type>1</type>
+			<location>C:/ExportFiles/gson-2.7.jar</location>
+		</link>
+		<link>
 			<name>WebContent/WEB-INF/lib/javax.mail.jar</name>
 			<type>1</type>
 			<location>C:/ExportFiles/javax.mail.jar</location>

@@ -1,10 +1,42 @@
 @charset "ISO-8859-1";
 
 h1 {
-	font-family: Helvetica, Geneva, Arial,
-        SunSans-Regular, sans-serif;
-	color: rgb(0,158,0);
+	font-family:"Trebuchet MS", Helvetica, sans-serif;
+	color: #f9f9f9;
 	text-align: center;
+	font-size: x-large;
 	 
 	
 }
+body {
+	background-color:#f9f9f9;
+	
+}
+table {
+	
+	width:100%;
+	border-collapse: collapse;
+	height: 60px;
+	border-spacing: 0px;
+}
+th{
+	height: 40px;
+	background-color:#009900;
+	padding: 0px;
+}
+td{
+	padding: 0px;
+	
+}
+table.login {
+	
+	width:100%;
+	border-collapse: collapse;
+	height: 450px;
+	border-spacing: 0px;
+	vertical-align: center;
+	
+}
+select {
+		width: 200px;
+	}

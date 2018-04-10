@@ -1,5 +1,5 @@
 /**
- * DT_USUARIO_RESRETURN.java
+ * DT_USUARIO_RESRETURNItem.java
  *
  * This file was auto-generated from WSDL
  * by the Apache Axis 1.4 Apr 22, 2006 (06:55:48 PDT) WSDL2Java emitter.
@@ -7,15 +7,15 @@
 
 package salas_usuarios.sap.document.sap_com;
 
-public class DT_USUARIO_RESRETURN  implements java.io.Serializable {
+public class DT_USUARIO_RESRETURNItem  implements java.io.Serializable {
     private java.lang.String TYPE;
 
     private java.lang.String MESSAGE;
 
-    public DT_USUARIO_RESRETURN() {
+    public DT_USUARIO_RESRETURNItem() {
     }
 
-    public DT_USUARIO_RESRETURN(
+    public DT_USUARIO_RESRETURNItem(
            java.lang.String TYPE,
            java.lang.String MESSAGE) {
            this.TYPE = TYPE;
@@ -24,7 +24,7 @@ public class DT_USUARIO_RESRETURN  implements java.io.Serializable {
 
 
     /**
-     * Gets the TYPE value for this DT_USUARIO_RESRETURN.
+     * Gets the TYPE value for this DT_USUARIO_RESRETURNItem.
      * 
      * @return TYPE
      */
@@ -34,7 +34,7 @@ public class DT_USUARIO_RESRETURN  implements java.io.Serializable {
 
 
     /**
-     * Sets the TYPE value for this DT_USUARIO_RESRETURN.
+     * Sets the TYPE value for this DT_USUARIO_RESRETURNItem.
      * 
      * @param TYPE
      */
@@ -44,7 +44,7 @@ public class DT_USUARIO_RESRETURN  implements java.io.Serializable {
 
 
     /**
-     * Gets the MESSAGE value for this DT_USUARIO_RESRETURN.
+     * Gets the MESSAGE value for this DT_USUARIO_RESRETURNItem.
      * 
      * @return MESSAGE
      */
@@ -54,7 +54,7 @@ public class DT_USUARIO_RESRETURN  implements java.io.Serializable {
 
 
     /**
-     * Sets the MESSAGE value for this DT_USUARIO_RESRETURN.
+     * Sets the MESSAGE value for this DT_USUARIO_RESRETURNItem.
      * 
      * @param MESSAGE
      */
@@ -64,8 +64,8 @@ public class DT_USUARIO_RESRETURN  implements java.io.Serializable {
 
     private java.lang.Object __equalsCalc = null;
     public synchronized boolean equals(java.lang.Object obj) {
-        if (!(obj instanceof DT_USUARIO_RESRETURN)) return false;
-        DT_USUARIO_RESRETURN other = (DT_USUARIO_RESRETURN) obj;
+        if (!(obj instanceof DT_USUARIO_RESRETURNItem)) return false;
+        DT_USUARIO_RESRETURNItem other = (DT_USUARIO_RESRETURNItem) obj;
         if (obj == null) return false;
         if (this == obj) return true;
         if (__equalsCalc != null) {
@@ -103,10 +103,10 @@ public class DT_USUARIO_RESRETURN  implements java.io.Serializable {
 
     // Type metadata
     private static org.apache.axis.description.TypeDesc typeDesc =
-        new org.apache.axis.description.TypeDesc(DT_USUARIO_RESRETURN.class, true);
+        new org.apache.axis.description.TypeDesc(DT_USUARIO_RESRETURNItem.class, true);
 
     static {
-        typeDesc.setXmlType(new javax.xml.namespace.QName("unr:sap-com:document:sap:salas_usuarios", ">DT_USUARIO_RES>RETURN"));
+        typeDesc.setXmlType(new javax.xml.namespace.QName("unr:sap-com:document:sap:salas_usuarios", ">>DT_USUARIO_RES>RETURN>item"));
         org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("TYPE");
         elemField.setXmlName(new javax.xml.namespace.QName("", "TYPE"));
