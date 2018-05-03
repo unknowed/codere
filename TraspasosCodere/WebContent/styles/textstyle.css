@@ -5,38 +5,88 @@ h1 {
 	color: #f9f9f9;
 	text-align: center;
 	font-size: x-large;
-	 
-	
 }
+
 body {
-	background-color:#f9f9f9;
-	
+	background-color:#ffffff;
 }
-table {
-	
+
+table.cabecera {
 	width:100%;
 	border-collapse: collapse;
 	height: 60px;
 	border-spacing: 0px;
 }
-th{
+
+th.cabecera{
 	height: 40px;
-	background-color:#009900;
+	background-color:#4CAF50;
 	padding: 0px;
 }
-td{
+
+td.cabecera{
 	padding: 0px;
-	
 }
+
 table.login {
-	
 	width:100%;
 	border-collapse: collapse;
 	height: 450px;
 	border-spacing: 0px;
 	vertical-align: center;
+}
+
+table.encabezado{
+	border-collapse: collapse;
+	border-spacing: 0px;
+	vertical-align: center;
 	
 }
+
 select {
-		width: 200px;
-	}
+	width: 200px;
+}
+
+label.caption{
+	font-family:"Trebuchet MS", Helvetica, sans-serif;
+	font-size: 18px;
+	font-weight: 1500;
+}
+
+
+/* Aca van los valores que campos de jquery para que se vea con los distintos colores*/
+
+.myTitleClass .ui-dialog-titlebar {
+    background: #adebad;
+}
+
+.ui-tabs .ui-tabs-nav {
+	background: #ecf9ec;
+}
+
+.ui-state-active,
+.ui-button:active,
+.ui-widget-header .ui-state-active{
+	border: 1px solid #009900;
+	background: #4CAF50;
+	font-weight: bold;
+	color: #ffffff;
+}
+
+
+/*
+Frente de boton sin nada
+
+.ui-button{
+	color: #454545;
+	background: #adebad;
+	text-decoration: none;	
+}
+
+Esto es el contenido del widget.
+.ui-widget-content{
+	border: 1px solid #4CAF50;
+	background: #d9f2d9;
+	color: #333333;
+	font-weight: bold;
+}*/

@@ -36,54 +36,72 @@ public class LoginServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		//response.getWriter().append("Served at: ").append(request.getContextPath());
-		//log();
-		DT_USUARIO_REQ r = new DT_USUARIO_REQ(request.getParameter("user"));
-		DT_USUARIO_RES a;
+				
+		//levanto el objeto de request al que le paso el valor del usuario
+		DT_USUARIO_REQ req = new DT_USUARIO_REQ(request.getParameter("user"));
+		//objeto de respuesta
+		DT_USUARIO_RES res;
+		//proxy
 		SI_USUARIOSALA_SOProxy p = new SI_USUARIOSALA_SOProxy();
+
+		//seteo las propiedades de la respuesta
+		response.setContentType("text/html");
+        response.setHeader("Cache-control", "no-cache, no-store");
+        response.setHeader("Pragma", "no-cache");
+        response.setHeader("Expires", "-1");
+
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Methods", "POST");
+        response.setHeader("Access-Control-Allow-Headers", "Content-Type");
+        response.setHeader("Access-Control-Max-Age", "86400");
+
+		
 		try {
 			
-			response.setContentType("text/html");
-	        response.setHeader("Cache-control", "no-cache, no-store");
-	        response.setHeader("Pragma", "no-cache");
-	        response.setHeader("Expires", "-1");
-
-	        response.setHeader("Access-Control-Allow-Origin", "*");
-	        response.setHeader("Access-Control-Allow-Methods", "POST");
-	        response.setHeader("Access-Control-Allow-Headers", "Content-Type");
-	        response.setHeader("Access-Control-Max-Age", "86400");
-
-	        a = p.SI_USUARIOSALA_SO(r);
-	        log("acaba de llenar a");
+			//obtengo los resultados del WS y los devuelvo a la pagina.
+	        res = p.SI_USUARIOSALA_SO(req);
+	        //objetos para generar json
 	        Gson gson = new Gson(); 
-	        JsonObject res = new JsonObject();
+	        JsonObject jres = new JsonObject();
 	        
-	        res.addProperty("success", true);
-	        res.addProperty("type", 0);
-	        res.add("result", gson.toJsonTree(a.getSALAS()));
-	        log(res.toString());
-	        response.getWriter().append(res.toString());
+	        //agrego propiedades para determinar si hubo error o no y que tipo.
+	        jres.addProperty("success", true);
+	        jres.addProperty("type", 0);
+	        
+	        //Agrego la lista de salas a la propiedad result 
+	        jres.add("result", gson.toJsonTree(res.getSALAS()));
+	        
+	        log(jres.toString());
+	        
+	        //lo mando a la pagina como json para que haga lo que debe hacer
+	        response.getWriter().append(jres.toString());
 	        
 		}catch(MT_FAULT e) {
-			
+			log("error1");
+			//En caso de error que devuelva el servidor de SAP
 	        //response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-	        Gson gson = new Gson(); 
-	        JsonObject myObj = new JsonObject();
+	        Gson gerrcontrolado = new Gson(); 
+	        JsonObject jreserr = new JsonObject();
 			
 	        if(e.getStandard().getFaultText().equals("Sin datos")) {
-	        	myObj.addProperty("success", false);
-		        myObj.addProperty("type", "1"); //Sin Datos
-		        myObj.add("result",gson.toJsonTree(r));
+	        	jreserr.addProperty("success", false);
+	        	jreserr.addProperty("type", "1"); //Sin Datos
+	        	jreserr.add("result",gerrcontrolado.toJsonTree(req));
+		        response.sendError(503, jreserr.toString());
+				//response.getWriter().append(jreserr.toString());
+	        } 
+		}catch(Exception ex) {
+			log("log error2");
+	        Gson gerr = new Gson(); 
+	        JsonObject jerr = new JsonObject();
+			
+        	jerr.addProperty("success", false);
+        	jerr.addProperty("type", "2"); //Error Server
+        	jerr.add("result",gerr.toJsonTree(req));
 //		        response.sendError(400, myObj.toString());
-				response.getWriter().append(myObj.toString());
-	        }
-			log("dio error " + e.getStandard().getFaultText().toString());
-			log(myObj.toString());
+			response.getWriter().append(jerr.toString());
+			
 		}
-		
-		log("paso por aca");
-		
 	}
 
 	/**

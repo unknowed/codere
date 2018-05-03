@@ -4,4 +4,16 @@
   <welcome-file-list>
     <welcome-file>home.jsp</welcome-file>
   </welcome-file-list>
+  <servlet>
+    <servlet-name>LoginServlet</servlet-name>
+    <servlet-class>com.codere.traspasos.servlets.LoginServlet</servlet-class>
+  </servlet>
+  <filter>
+    <filter-name>AuthenticationFilter</filter-name>
+    <filter-class>com.codere.traspasos.filters.AuthenticationFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>AuthenticationFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
 </web-app>

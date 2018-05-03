@@ -3,8 +3,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
-		<link href="js/JQuery/jquery-ui.css" rel="stylesheet">
-		<link href="styles/textstyle.css" rel="stylesheet">
+		<link href="js/JQuery2/jquery-ui.css" rel="stylesheet">
+		<link href="styles/textstyle.css" rel="stylesheet">  
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 		<style>
 		div.relative {
@@ -13,16 +13,18 @@
 		    height: 50px;
 		    align: center;
 		} 
+		.ui-front{z-index:0 !important; } 
+		.ui-selectmenu-open {z-index:9999 !important;}
 		</style>
 		<title>Traspasos CODERE</title>
 	</head>
 	<body>
-	<table>
+	<table class="cabecera">
 		<tr>
-			<th width="20%">
+			<th width="20%" class="cabecera">
 				<img alt="Logo" src="images/codere_logo_3.png">
 			</th>
-			<th width="80%" style="text-align:center;">
+			<th width="80%" style="text-align:center;" class="cabecera">
 				<h1>Traspasos Codere</h1>
 			</th>
 		</tr>
@@ -32,16 +34,23 @@
 			</td>
 		</tr>
 	</table>
-	
+	<div id="tabs">
+	<ul>
+		<li><a href="#tabs-1">Busqueda por Material</a></li>
+		<li><a href="#tabs-2">Busqueda por Documento</a></li>
+	</ul>
+	<div id="tabs-1">Tab 1</div>
+	<div id="tabs-2">Tab 2</div>
+	</div>
 
 	
-	<div align="center">
+	<div align="center" id="divlogin">
 		<table class="table login">
 			<tr>
 				<td align="center">
 					<form id="login" action="LoginServlet" method="post">
 					
-						Usuario: <input type="text" name="user" id="user">
+						<label for="user">Usuario:</label> <input type="text" name="user" id="user">
 						<br>
 			
 					</form>
@@ -56,92 +65,176 @@
 				</td>
 			</tr>
 		</table>
-		
 	</div>
-	<div id="salaseleccion">
-		<select id="selectmenu" name="selectmenu">
-			<option>Slower</option>
-			<option>Slow</option>
-			<option selected="selected">Medium</option>
-			<option>Fast</option>
-			<option>Faster</option>
-		</select>
-		<h2 class="demoHeaders">Datepicker</h2>
-<div id="datepicker"></div>
-		
+	
+	<div id="dialog" title="Seleccionar una sala" align="center">
+		<form id="frmsala" method="post" action="sessionManager">
+			<select id="selectsalas" name="selectsalas">
+			</select>
+			<input type="hidden" id="hdnusuario" name="hdnusuario"/>
+		</form>		
 	</div>
-	<script src="js/JQuery/external/jquery/jquery.js"></script>
-	<script src="js/JQuery/jquery-ui.js"></script>
+	
+ 
+	<script src="js/JQuery2/external/jquery/jquery.js"></script>
+	<script src="js/JQuery2/jquery-ui.js"></script>
+	 
 	<script>
-		$(document).ready(function(){
-			$( "#selectmenu" ).selectmenu();			
-			
-		});
-
-		$( "#button-icon" ).button({
+		//****************************************************
+		// preparar todos los objetos con el look de jquery
+		//****************************************************
+		
+		//select para las salas
+		$("#selectsalas").selectmenu();			
+	
+		//boton de Entrar del login
+		$("#button-icon").button({
 			icon: "ui-icon-check whiteIcon",
 			showLabel: true,
 		});
+		
+		//oculto el div de errores
+		$("#error").css("display","none");
+		
+		//oculto los tab
+		$("#tabs").hide();
+		//$("#tabs").css("display","none");
+		$("#tabs").tabs().css({
+				"min-height": "700px",
+				"overflow": "auto"
+		});
 
 		
-		$( "#datepicker" ).datepicker({
-			inline: true
+		//****************************************************
+		//Seteamos las funciones de los distintos controles
+		//****************************************************
+		
+		
+		//boton de entrar en el login
+		$("#button-icon").click(function(){
+        	$("#error").css("display","none");
+			$("#login").submit();
+		});
+
+		
+		//armo las funciones del dialogo de seleccionar sala.
+		$("#dialog").dialog({
+			autoOpen: false,
+			width: 400,
+			height: 200,
+			dialogClass: "myTitleClass",
+			buttons: [
+				{
+					text: "Seleccionar",
+					click: function() {
+						$("#hdnusuario").val($("#user").val());
+						$("#frmsala").submit();
+						$( this ).dialog( "close" );
+					}
+				},
+				{
+					text: "Cancelar",
+					click: function() {
+						$( this ).dialog( "close" );
+					}
+				}
+			]
 		});
 		
-		//$( "#button-icon" ).css("background","#00802b");
-		//$( "#button-icon" ).css("color","#ffffff");
-
-		$('#error').css("display","none");
-	    var frm = $('#login');
-
+		
+		
+		//**************************************************
+		// Preparo los formularios con ajax
+		//**************************************************
+		
+		
+		/////////////////////////////////
+		// Formulario de seleccion de salas para Session.
+		////////////////////////////////
+		var frmsalas = $("#frmsala");
+		frmsalas.submit(function (e){
+			e.preventDefault();
+			//alert("asdf");
+			$.ajax({
+				type: frmsalas.attr("method"),
+				url: frmsalas.attr("action"),
+				data: frmsalas.serialize(),
+				success: function(data){
+					$("#divlogin").hide();
+					$("#tabs-1").load("findDoc.jsp");
+					$("#tabs-2").load("findDocD.jsp");
+					$("#tabs").show();					
+				},
+				error: function (jqXHR, textStatus, message) {
+					//alert("dio error ");
+	            },
+			});
+			
+		});
+		
+		
+		/////////////////////////////////
+		//Formulario de login, le agrego la logica de ajax para el postback.
+		////////////////////////////////
+		var frm = $("#login");
 	    frm.submit(function (e) {
-			var usuario = $('#user').val(); 
+	    	
+	    	//validar que se haya puesto un usuario
+			var usuario = $("#user").val(); 
 			if(usuario == ""){
-            	$('#textoerror').html("<span class='ui-icon ui-icon-alert' style='float: left; margin-right: .3em;'></span><strong>Error:</strong> Debe completar el usuario");
-            	$('#error').css("display","inline");
+				//muestro el mensaje de error
+            	$("#textoerror").html("<span class='ui-icon ui-icon-alert' style='float: left; margin-right: .3em;'></span><strong>Error:</strong> Debe completar el usuario");
+            	$("#error").css("display","inline");
             	return false;
 			}else{
+				//si se puso usuario mandar todo al backend para obtener las salas o mostrar mensaje de error de que no existe el usuario.
 	        	e.preventDefault();
-
-		        $.ajax({
-		            type: frm.attr('method'),
-		            url: frm.attr('action'),
+				
+				//$("#divlogin").children().prop('disabled',true);
+		        //mando todo al backend
+				$.ajax({
+		            type: frm.attr("method"),
+		            url: frm.attr("action"),
 		            data: frm.serialize(),
 		            success: function (data) {
 		            	var r = jQuery.parseJSON(data);
-
-		            	if(r.success){
-		            		
-		            		
+						//si hay data y no error...
+	            		if(r.success){
+	            			
+	            			//creo los options para el combobox
+		            		var options = [];	
+		            		for(i=0; i<r.result.length; i++){
+		            			var arr = r.result[i].LGORT.split("-");
+		            			options.push("<option value='" + arr[0].trim() + "/" + r.result[i].WERKS + "/" + arr[1].trim() +"'>" + arr[1].trim() + "</option>");
+		            		}
+		            		//los agrego al select y lo refresco en jquery para que los muestre en el control
+		            		$("#selectsalas").empty();
+		            		$("#selectsalas").append(options.join("")).selectmenu();
+		            		$("#selectsalas").selectmenu("refresh");
+		            		$("#dialog").dialog("open");
 		            	}else{
-		            		alert("entro error");
+		            		//en caso que de error aca cacheo los errores y muestro un mensaje apropiado.
 		            		switch(parseInt(r.type)){
-		            		case 1:
-		            			alert("entro 1");
-			                	$('#textoerror').html("<span class='ui-icon ui-icon-alert' style='float: left; margin-right: .3em;'></span><strong>Error:</strong> El usuario <strong>" + r.result.i_USUARIO + "</strong> no existe.");
+		            		case 1: //Sin datos el usuario no existe.
+			                	$("#textoerror").html("<span class='ui-icon ui-icon-alert' style='float: left; margin-right: .3em;'></span><strong>Error:</strong> El usuario <strong>" + r.result.i_USUARIO + "</strong> no existe.");
 			                	break;
 							default:
-			                	$('#textoerror').html("<span class='ui-icon ui-icon-alert' style='float: left; margin-right: .3em;'></span><strong>Error:</strong> Error en SAP por favor contacte a su Administrador de Redes");
+			                	$("#textoerror").html("<span class='ui-icon ui-icon-alert' style='float: left; margin-right: .3em;'></span><strong>Error:</strong> Error en SAP por favor contacte a su Administrador de Redes");
 		            		}
-		                	$('#error').css("display","inline");		            		
+		                	$("#error").css("display","inline");		            		
 		            	}
 		            },
 		            error: function (jqXHR, textStatus, message) {
-
+						alert("error");
+						alert(jqXHR.responseText);
+						alert(textStatus);
+						alert(message);
 		            },
 		        });
+				//$("#divlogin").children().prop('disabled',false);
 			}
 	    });
 	    
-	   
-	    
-		$( "#button-icon" ).click(function(){
-        	$('#error').css("display","none");
-			$("#login").submit();
-		});
-		
-		
-
 	</script>
 	</body>
 </html>
