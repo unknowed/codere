@@ -22,7 +22,7 @@ public class BC_APPTRASP_SI_ENTRADAS_SOLocator extends org.apache.axis.client.Se
     }
 
     // Use to get a proxy class for HTTPS_Port
-    private java.lang.String HTTPS_Port_address = "https://esplx238/XISOAPAdapter/MessageServlet?senderParty=&senderService=BC_APPTRASP&receiverParty=&receiverService=&interface=SI_ENTRADAS_SO&interfaceNamespace=unr%3Asap-com%3Adocument%3Asap%3Aentrada_cendest";
+    private java.lang.String HTTPS_Port_address = "http://esplx238:50000/XISOAPAdapter/MessageServlet?senderParty=&senderService=BC_APPTRASP&receiverParty=&receiverService=&interface=SI_ENTRADAS_SO&interfaceNamespace=unr%3Asap-com%3Adocument%3Asap%3Aentrada_cendest";
 
     public java.lang.String getHTTPS_PortAddress() {
         return HTTPS_Port_address;

@@ -21,7 +21,17 @@ public class DT_VITRASP_RESSTOCDETItem  implements java.io.Serializable {
     private java.lang.String MENGE;
 
     private java.lang.String MEINS;
+    
+    //Campo agregado para la cantidad editada por el usuario
+    private java.lang.Integer iCantUpdate;
 
+    public java.lang.Integer getiCantUpdate(){
+    	return iCantUpdate;
+    } 
+    public void setiCantUpdate(Integer value) {
+    	iCantUpdate = value;
+    }
+    
     public DT_VITRASP_RESSTOCDETItem() {
     }
 

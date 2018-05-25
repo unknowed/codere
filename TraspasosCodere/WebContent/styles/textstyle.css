@@ -1,6 +1,13 @@
 @charset "ISO-8859-1";
 
-h1 {
+h1.mensajeblock {
+	font-family:"Trebuchet MS", Helvetica, sans-serif;
+	color: #000000;
+	text-align: center;
+	font-size: Large;
+}
+
+h1.header {
 	font-family:"Trebuchet MS", Helvetica, sans-serif;
 	color: #f9f9f9;
 	text-align: center;
@@ -11,20 +18,20 @@ body {
 	background-color:#ffffff;
 }
 
-table.cabecera {
+table.header {
 	width:100%;
 	border-collapse: collapse;
 	height: 60px;
 	border-spacing: 0px;
 }
 
-th.cabecera{
+th.header{
 	height: 40px;
 	background-color:#4CAF50;
 	padding: 0px;
 }
 
-td.cabecera{
+td.header{
 	padding: 0px;
 }
 
@@ -36,7 +43,7 @@ table.login {
 	vertical-align: center;
 }
 
-table.encabezado{
+table.header2{
 	border-collapse: collapse;
 	border-spacing: 0px;
 	vertical-align: center;
@@ -57,7 +64,8 @@ label.caption{
 /* Aca van los valores que campos de jquery para que se vea con los distintos colores*/
 
 .myTitleClass .ui-dialog-titlebar {
-    background: #adebad;
+    background: #4CAF50;
+    color: #ffffff;
 }
 
 .ui-tabs .ui-tabs-nav {

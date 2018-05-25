@@ -44,7 +44,7 @@ public class sessionManager extends HttpServlet {
 		session.setAttribute("werks", val[1]);
 		session.setAttribute("lgort", val[0]);
 		session.setAttribute("descripcion", val[2]);
-
+		session.setAttribute("posiciones", null);
 		
 		// valores de expire y demas sarasas
 		session.setMaxInactiveInterval(30*60);

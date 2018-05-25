@@ -60,27 +60,28 @@ public class RetrieveTraspasos extends HttpServlet {
 		req.setWERKS(session.getAttribute("werks").toString());
 		req.setLGORT(session.getAttribute("lgort").toString());
 		req.setTYCON("C");
+//		Si busco por material entro por aca
 		if(request.getParameter("tyb").equals("P")) {
-			log("entro por P");
 			req.setDOCMATL("");
 			req.setDOCMATH("");
-			if(request.getParameter("matl") == null) {
+			if(request.getParameter("low") == null) {
 				req.setMATNRL("");
 				req.setMATNRH("");
 			}else {
-				log("no null");
-				req.setMATNRL(request.getParameter("matl").toString());
-				req.setMATNRH(request.getParameter("math").toString());
+				log(request.getParameter("low").toString());
+				req.setMATNRL(request.getParameter("low").toString());
+				req.setMATNRH(request.getParameter("high").toString());
 			}
 		}else {
+			//Si busco por documento... va por aca
 			req.setMATNRL("");
 			req.setMATNRH("");
-			if(request.getParameter("docl") == null) {
+			if(request.getParameter("low") == null) {
 				req.setDOCMATL("");
 				req.setDOCMATH("");
 			}else {
-				req.setDOCMATL(request.getParameter("docl").toString());
-				req.setDOCMATH(request.getParameter("doch").toString());
+				req.setDOCMATL(request.getParameter("low").toString());
+				req.setDOCMATH(request.getParameter("high").toString());
 			}
 		}
 		
@@ -101,21 +102,16 @@ public class RetrieveTraspasos extends HttpServlet {
 			res = p.SI_VTRASPASOS_SO(req);
 			
 
-			log(request.getQueryString());
 			totalrows = res.getSTOCCAB().length;
 
+			//hago el paginado
 			if(totalrows > 0) {
-				int i = 0;
 				int contador = ((page - 1) * rows) ; 
 				
 				while( contador < totalrows && contador < (page * rows)) {
 					arrResp.add(res.getSTOCCAB()[contador]);
 					contador++;
-					i++;
 				}  
-				log(String.valueOf(totalrows));
-				log(String.valueOf(rows));
-				log(String.valueOf((int) Math.ceil((double)totalrows / rows)));
 				jres.addProperty("total", (int) Math.ceil((double)totalrows / rows));
 				jres.addProperty("page", page);
 				jres.addProperty("records", totalrows);
@@ -125,11 +121,9 @@ public class RetrieveTraspasos extends HttpServlet {
 				jres.addProperty("total", 0);
 				jres.addProperty("page", 0);
 				jres.addProperty("records", 0);
+				jres.addProperty("mensaje", res.getRETURN()[0].getMESSAGE());
 			}
 				
-			
-			
-			log(jres.toString());
 			
 			response.getWriter().append(jres.toString());
 			
@@ -137,6 +131,7 @@ public class RetrieveTraspasos extends HttpServlet {
 			jres.addProperty("total", 0);
 			jres.addProperty("page", 0);
 			jres.addProperty("records", 0);
+			jres.addProperty("mensaje",e.getStandard().getFaultText());
 			response.getWriter().append(jres.toString());
 		}
 

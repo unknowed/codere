@@ -213,6 +213,8 @@ public class SI_ENTRADAS_SOBindingStub extends org.apache.axis.client.Stub imple
         _call.setUseSOAPAction(true);
         _call.setSOAPActionURI("http://sap.com/xi/WebService/soap1.1");
         _call.setEncodingStyle(null);
+        _call.setProperty(org.apache.axis.client.Call.USERNAME_PROPERTY, "CODEREMEX");
+        _call.setProperty(org.apache.axis.client.Call.PASSWORD_PROPERTY, "c0d3r3_2018");
         _call.setProperty(org.apache.axis.client.Call.SEND_TYPE_ATTR, Boolean.FALSE);
         _call.setProperty(org.apache.axis.AxisEngine.PROP_DOMULTIREFS, Boolean.FALSE);
         _call.setSOAPVersion(org.apache.axis.soap.SOAPConstants.SOAP11_CONSTANTS);

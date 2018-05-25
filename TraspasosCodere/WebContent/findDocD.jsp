@@ -3,8 +3,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+	<!-- JS de JQGrid -->
 	<script src="js/Grid3/js/jquery.jqgrid.src.js"></script>
+	<!-- CSS para la JQGrid -->
 	<link href="js/Grid3/css/ui.jqgrid.css" rel="stylesheet">
+
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<title>Busqueda por Documento</title>
 	<style>
@@ -12,38 +15,38 @@
 	</style>
 </head>
 <body>
-<table class="encabezado">
+<table class="header2">
 	<tr>
 		<td width="100px">
-			<label id="lblusuario" class="caption">Usuario: </label>
+			<label id="lblusuarioD" class="caption">Usuario: </label>
 		</td>
 		<td colspan="2">
-			<label id="lblusuarioValue"><%= session.getAttribute("usuario") %></label>		
+			<label id="lblusuarioValueD"><%= session.getAttribute("usuario") %></label>		
 		</td>
 	</tr>
 	<tr>
 		<td>
-			<label id="lblCentro" class="caption">Centro: </label>		
+			<label id="lblCentroD" class="caption">Centro: </label>		
 		</td>
 		<td colspan="2">
-			<label id="lblCentroValue"><%= session.getAttribute("werks") %></label>		
+			<label id="lblCentroValueD"><%= session.getAttribute("werks") %></label>		
 		</td>
 	</tr>	
 	<tr>
 		<td>
-			<label id="lblAlmacen" class="caption">Almacen: </label>		
+			<label id="lblAlmacenD" class="caption">Almacen: </label>		
 		</td>
 		<td colspan="2">
-			<label id="lblAlmacenValue"><%= session.getAttribute("lgort") + " - " +  session.getAttribute("descripcion") %></label>		
+			<label id="lblAlmacenValueD"><%= session.getAttribute("lgort") + " - " +  session.getAttribute("descripcion") %></label>		
 		</td>
 	</tr>
 	<tr>
 		<td colspan="2">
-			<label id="lblMaterial" class="caption">Material de </label>		
-			<input type="text" name="matl" id="matl">
-			<label id="lblAlmacenValue" class="caption"> a </label>		
-			<input type="text" name="math" id="math">
-			<button id="button-icon">Buscar</button>
+			<label id="lblMaterialD" class="caption">Documento de </label>		
+			<input type="text" name="docl" id="docl">
+			<label id="lblAlmacenValueD" class="caption"> a </label>		
+			<input type="text" name="doch" id="doch">
+			<button id="button-iconD">Buscar</button>
 		</td>
 	
 	</tr>
@@ -51,51 +54,52 @@
 
 <br>
 
-    <table id="master"></table>
-    <div id="pager"></div>
+    <table id="masterD"></table>
+    <div id="pagerD"></div>
 
     <br /><br />
 
-    <div id="detailsPlaceholder">
-        <table id="detaill"></table>
-        <div id="pager_d"></div>
+    <div id="detailsPlaceholderD">
+        <table id="detaillD"></table>
+        <div id="pager_dD"></div>
     </div>
-	<div id="errord" class="ui-widget relative">
+	<div id="errordD" class="ui-widget relative">
 		<div class="ui-state-highlight ui-corner-all" style="padding: 0 .7em;">
-			<p id="textoerrord"><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+			<p id="textoerrordD"><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
 			<strong>Error:</strong> </p>
 		</div>
 	</div>
-	<button id="button-icon2">Buscar</button>
+	<button id="button-icon2D">Buscar</button>
 
 <script>
+
 	///////////////////////////////////////////////////////
 	// Preparo los objetos
 	//////////////////////////////////////////////////////
 	//Oculto el div de errores
-	$("#errord").css("display","none");
+	$("#errordD").css("display","none");
 	
 	//Boton de buscar
 	
-	$("#button-icon").button({
+	$("#button-iconD").button({
 			icon: "ui-icon-search whiteIcon",
 			showLabel: true,
 	});
-	$("#button-icon2").button({
+	$("#button-icon2D").button({
 		icon: "ui-icon-search whiteIcon",
 		showLabel: true,
 	});
 	
-	$("#button-icon").css("height","26px");
-	$("#button-icon").css("align","center");
+	$("#button-iconD").css("height","26px");
+	$("#button-iconD").css("align","center");
 	
 	//****************************************************
 	//Grid Master
 	//****************************************************
 	
-	jQuery("#master").jqGrid({
+	jQuery("#masterD").jqGrid({
 		width: "400px",
-		url:"RetrieveTraspasos?tyb=P",
+		url:"RetrieveTraspasos?tyb=D",
 		datatype: "json",
 	   	colNames:["Documento","Fecha"],
 	   	colModel:[
@@ -106,7 +110,7 @@
 	   	rownumbers: true,
 	   	rownumWidth: 25,
 	   	rowList:[10,20,30],
-	   	pager: '#pager',
+	   	pager: '#pagerD',
 	   	hidegrid:false,
 	   	sortname: 'id',
 	    viewrecords: true,
@@ -122,36 +126,36 @@
 		multiselect: false,
 		onSortCol : clearSelection,
 	    loadComplete: function(data){
-	    	if($("#master").getGridParam("records") == 0){
-	    		$("#textoerrord").html("<span class='ui-icon ui-icon-info' style='float: left; margin-right: .3em;'></span>No hay datos para mostrar");
-	    		$("#errord").css("display","inline");
+	    	if($("#masterD").getGridParam("records") == 0){
+	    		$("#textoerrordD").html("<span class='ui-icon ui-icon-info' style='float: left; margin-right: .3em;'></span>No hay datos para mostrar");
+	    		$("#errordD").css("display","inline");
 	    	}else{
-	    		$("errord").css("display","none");
+	    		$("errordD").css("display","none");
 	    	}
 	    },
 		onPaging : clearSelection,
 		caption: "Documentos de Traspasos",
 		onSelectRow: function(ids) {
-			$('#detaill').jqGrid('clearGridData');
+			$('#detaillD').jqGrid('clearGridData');
 			if(ids == null) {
 				ids=0;
-				if(jQuery("#detaill").jqGrid('getGridParam','records') >0 )
+				if(jQuery("#detaillD").jqGrid('getGridParam','records') >0 )
 				{
-					jQuery("#detaill").jqGrid('setGridParam',{url:"RetrieveTraspasosD?doc="+ids});
-					jQuery("#detaill").jqGrid('setCaption',"Detalle Documento: "+ids)
+					jQuery("#detaillD").jqGrid('setGridParam',{url:"RetrieveTraspasosD?doc="+ids});
+					jQuery("#detaillD").jqGrid('setCaption',"Detalle Documento: "+ids)
 					.trigger('reloadGrid');
 				}
 			} else {
-				jQuery("#detaill").jqGrid('setGridParam',{url:"RetrieveTraspasosD?doc="+ids});
-				jQuery("#detaill").jqGrid('setCaption',"Detalle documento: "+ids)
+				jQuery("#detaillD").jqGrid('setGridParam',{url:"RetrieveTraspasosD?doc="+ids});
+				jQuery("#detaillD").jqGrid('setCaption',"Detalle documento: "+ids)
 				.trigger('reloadGrid');			
 			}
 		}
 	});
-	jQuery("#master").jqGrid('navGrid','#pager',{add:false,edit:false,del:false,search: false});
+	jQuery("#masterD").jqGrid('navGrid','#pagerD',{add:false,edit:false,del:false,search: false});
 	
-	$('#detaill').jqGrid('clearGridData');
-	jQuery("#detaill").jqGrid({
+	$('#detaillD').jqGrid('clearGridData');
+	jQuery("#detaillD").jqGrid({
 	   	url:'RetrieveTraspasosD?doc=0',
 		datatype: "json",
 	   	colNames:["Nro Doc","Doc Compra","Posicion","Nro Material", "Descripcion","Cantidad","UM","Cantidad Recibida"],
@@ -176,37 +180,37 @@
 	    },
 	    hidegrid:false,
 	   	rowList:[10,20,30],
-	   	pager: '#pager_d',
+	   	pager: '#pager_dD',
 	   	multiselect:true,
 	   	sortname: 'Posicion',
 	   	onSelectRow: function(id){
 	   		alert(id);
-	   	  $('#detaill').jqGrid('saveRow',lastsel,false,'clientArray');
+	   	  $('#detaillD').jqGrid('saveRow',lastsel,false,'clientArray');
 	   	  
 	   	  if(id && id!==lastsel){
-	   	    $('#detaill').jqGrid('restoreRow',lastsel);
+	   	    $('#detaillD').jqGrid('restoreRow',lastsel);
 	   	    lastsel=id;
 	   	  }
-	   	  $('#detaill').jqGrid('editRow',id,false);
+	   	  $('#detaillD').jqGrid('editRow',id,false);
 	   	},
 	    viewrecords: true,
 	    sortorder: "asc",
 	    editurl:"sarasa.jsp",
 	    caption:"Detalle Documento"
-	}).navGrid('#pager_d',{add:false,edit:false,del:false, search:false});
+	}).navGrid('#pager_dD',{add:false,edit:false,del:false, search:false});
 	
 	
 	//boton de entrar en el login
-	$("#button-icon").click(function(){
+	$("#button-iconD").click(function(){
 		
-		jQuery("#detaill").jqGrid("clearGridData");
-		jQuery("#master").jqGrid('setGridParam',{url:"RetrieveTraspasos?tyb=P"+ getQueryString() ,page:1})
+		jQuery("#detaillD").jqGrid("clearGridData");
+		jQuery("#masterD").jqGrid('setGridParam',{url:"RetrieveTraspasos?tyb=D"+ getQueryString() ,page:1})
 		.trigger('reloadGrid');	
 		
 		
 	});
-	$("#button-icon2").click(function(){
-		jQuery("#detaill").jqGrid("editRow","00190");
+	$("#button-icon2D").click(function(){
+		jQuery("#detaillD").jqGrid("editRow","00190");
 		this.disabled = 'true';
 	});
 	
@@ -215,16 +219,16 @@
 	/////////////////////////////////////////////////
 
 	function clearSelection() {
-				jQuery("#detaill").jqGrid('setGridParam',{url: "empty.json", datatype: 'json'}); // the last setting is for demo purpose only
-				jQuery("#detaill").jqGrid('setCaption', 'Detail Grid:: none');
-				jQuery("#detaill").trigger("reloadGrid");
+				jQuery("#detaillD").jqGrid('setGridParam',{url: "empty.json", datatype: 'json'}); // the last setting is for demo purpose only
+				jQuery("#detaillD").jqGrid('setCaption', 'Detail Grid:: none');
+				jQuery("#detaillD").trigger("reloadGrid");
 				
 	}
 	
 	function getQueryString(){
 		var strRetorno = "";
 		
-		strRetorno = "&matl=" + $("#matl").val() + "&math=" + $("#math").val();
+		strRetorno = "&docl=" + $("#docl").val() + "&doch=" + $("#doch").val();
 		
 		return strRetorno;		
 	}

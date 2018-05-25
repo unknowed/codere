@@ -1,26 +1,24 @@
 package com.codere.traspasos.servlets;
 
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * Servlet implementation class LogoutServlet
+ * Servlet implementation class ClearPosiciones
  */
-@WebServlet("/LogoutServlet")
-public class LogoutServlet extends HttpServlet {
+@WebServlet("/ClearPosiciones")
+public class ClearPosiciones extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LogoutServlet() {
+    public ClearPosiciones() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -30,24 +28,7 @@ public class LogoutServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.setContentType("text/html");
-    	Cookie[] cookies = request.getCookies();
-    	if(cookies != null){
-    	for(Cookie cookie : cookies){
-    		if(cookie.getName().equals("JSESSIONID")){
-    			//System.out.println("JSESSIONID="+cookie.getValue());
-    			break;
-    		}
-    	}
-    	}
-    	//invalidate the session if exists
-    	HttpSession session = request.getSession(false);
-    	//System.out.println("User="+session.getAttribute("usuario"));
-    	if(session != null){
-    		session.invalidate();
-    		session = null;
-    	}
-    	response.sendRedirect("home.jsp");
+		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	/**
@@ -55,6 +36,10 @@ public class LogoutServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		
+		//levanto la session en el objeto
+		HttpSession session = request.getSession();
+		session.setAttribute("posiciones", null);
 		doGet(request, response);
 	}
 
