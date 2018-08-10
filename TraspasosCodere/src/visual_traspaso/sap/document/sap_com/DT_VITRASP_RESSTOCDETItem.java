@@ -25,6 +25,17 @@ public class DT_VITRASP_RESSTOCDETItem  implements java.io.Serializable {
     //Campo agregado para la cantidad editada por el usuario
     private java.lang.Integer iCantUpdate;
 
+    //Campo id, solo para uso en el frontend.
+    private java.lang.Integer iId;
+    
+    public java.lang.Integer getiId(){
+    	return iId;
+    }
+    
+    public void setiId( Integer value) {
+    	iId = value;
+    }
+    
     public java.lang.Integer getiCantUpdate(){
     	return iCantUpdate;
     } 

@@ -71,13 +71,11 @@ public class LoginServlet extends HttpServlet {
 	        //Agrego la lista de salas a la propiedad result 
 	        jres.add("result", gson.toJsonTree(res.getSALAS()));
 	        
-	        log(jres.toString());
 	        
 	        //lo mando a la pagina como json para que haga lo que debe hacer
 	        response.getWriter().append(jres.toString());
 	        
 		}catch(MT_FAULT e) {
-			log("error1");
 			//En caso de error que devuelva el servidor de SAP
 	        //response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 	        Gson gerrcontrolado = new Gson(); 
@@ -87,11 +85,10 @@ public class LoginServlet extends HttpServlet {
 	        	jreserr.addProperty("success", false);
 	        	jreserr.addProperty("type", "1"); //Sin Datos
 	        	jreserr.add("result",gerrcontrolado.toJsonTree(req));
-		        response.sendError(503, jreserr.toString());
-				//response.getWriter().append(jreserr.toString());
+		        //response.sendError(503, jreserr.toString());
+				response.getWriter().append(jreserr.toString());
 	        } 
 		}catch(Exception ex) {
-			log("log error2");
 	        Gson gerr = new Gson(); 
 	        JsonObject jerr = new JsonObject();
 			

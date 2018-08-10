@@ -62,21 +62,31 @@ public class UpdatePosicion extends HttpServlet {
 		String MATNR = request.getParameter("MATNR");
 		String MBLNR = request.getParameter("MBLNR");
 		String iCantRecibida = request.getParameter("iCantUpdate");
-		
+		log("-------------");
+		log(EBELN);
+		log(EBELP);
+		log(MATNR);
+		log(MBLNR);
+		log(iCantRecibida);
 		
 		int result = Iterables.indexOf(list, this.filterPos(EBELP));
-
-		if(result == -1) {
+		log("resultado: " + String.valueOf(result));
+		if(result == -1 && iCantRecibida != "") {
 			DT_ENTRADAS_REQI_ENTRADAItem item = new DT_ENTRADAS_REQI_ENTRADAItem();
 			
 			item.setEBELN(EBELN);
 			item.setEBELP(EBELP);
 			item.setMATNR(MATNR);
 			item.setMBLNR(MBLNR);
-			item.setZMENG(iCantRecibida);
+			item.setZMENG(iCantRecibida.replaceFirst("^0+(?!$)", ""));
 			list.add(item);
 		}else {
-			list.get(result).setZMENG(iCantRecibida);
+			if (result != -1 && iCantRecibida != "") {
+				list.get(result).setZMENG(iCantRecibida);
+			}
+			if (result != -1 && iCantRecibida == "") {
+				list.remove(result);
+			}
 		}
 		session.setAttribute("posiciones", list);
 		

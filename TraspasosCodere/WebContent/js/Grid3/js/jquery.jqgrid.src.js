@@ -14780,9 +14780,10 @@
 						}
 						return false;
 					},
-					onRefresh = function () {
+					onRefresh = function () {						
 						if (!hasOneFromClasses(this, disabledClass)) {
-							if ($.isFunction(o.beforeRefresh)) { o.beforeRefresh.call($t); }
+							var result = true;
+							if ($.isFunction(o.beforeRefresh)) { result = o.beforeRefresh.call($t); }
 							p.search = false;
 							p.resetsearch = true;
 							try {
@@ -14794,17 +14795,20 @@
 									if ($.isFunction($t.clearToolbar)) { $t.clearToolbar(false); }
 								}
 							} catch (ignore) { }
-							switch (o.refreshstate) {
-								case "firstpage":
-									$self.trigger("reloadGrid", [$.extend({}, o.reloadGridOptions || {}, { page: 1 })]);
-									break;
-								case "current":
-								case "currentfilter":
-									$self.trigger("reloadGrid", [$.extend({}, o.reloadGridOptions || {}, { current: true })]);
-									break;
+							if(result){
+								switch (o.refreshstate) {
+									case "firstpage":
+										$self.trigger("reloadGrid", [$.extend({}, o.reloadGridOptions || {}, { page: 1 })]);
+										break;
+									case "current":
+									case "currentfilter":
+										$self.trigger("reloadGrid", [$.extend({}, o.reloadGridOptions || {}, { current: true })]);
+										break;
+								}
 							}
 							if ($.isFunction(o.afterRefresh)) { o.afterRefresh.call($t); }
 						}
+
 						return false;
 					},
 					stdButtonActivation = function (name, id, onClick) {

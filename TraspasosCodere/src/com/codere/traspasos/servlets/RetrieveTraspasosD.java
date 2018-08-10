@@ -98,6 +98,7 @@ public class RetrieveTraspasosD extends HttpServlet {
 					
 					while( contador < totalrows && contador < (page * rows)) {
 						arrResp.add(a.getSTOCDET()[contador]);
+						arrResp.get(i).setiId(i);
 						//si se edito esto en algun momento levanto los valores editados y los mando al frontend
 						if(edit) {
 							int result = Iterables.indexOf(list, this.filterPos(a.getSTOCDET()[contador].getEBELP()));
@@ -118,14 +119,19 @@ public class RetrieveTraspasosD extends HttpServlet {
 					jres.addProperty("total", 0);
 					jres.addProperty("page", 0);
 					jres.addProperty("records", 0);
+					jres.addProperty("rows", "");
 				}
+				log(jres.toString());
 	        	response.getWriter().append(jres.toString());							
 				
 			}catch (MT_FAULT e) {
 				//si dio error...
+				log(e.getStandard().getFaultText());
+				log("error1");
 				jres.addProperty("total", 0);
 				jres.addProperty("page", 0);
 				jres.addProperty("records", 0);
+				jres.addProperty("rows", "");
 				response.getWriter().append(jres.toString());
 				
 			}
@@ -135,6 +141,8 @@ public class RetrieveTraspasosD extends HttpServlet {
 			jres.addProperty("total", 0);
 			jres.addProperty("page", 0);
 			jres.addProperty("records", 0);
+			jres.addProperty("rows", "");
+
 			response.getWriter().append(jres.toString());
 		}
 	}

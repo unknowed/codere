@@ -124,7 +124,6 @@ public class RetrieveTraspasos extends HttpServlet {
 				jres.addProperty("mensaje", res.getRETURN()[0].getMESSAGE());
 			}
 				
-			
 			response.getWriter().append(jres.toString());
 			
 		}catch(MT_FAULT e) {

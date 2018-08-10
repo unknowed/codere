@@ -265,7 +265,7 @@
 							default:
 			                	$("#textoerror").html("<span class='ui-icon ui-icon-alert' style='float: left; margin-right: .3em;'></span><strong>Error:</strong> Error en SAP por favor contacte a su Administrador de Redes");
 		            		}
-		                	$("#error").css("display","inline");		            		
+		                	$("#error").css("display","inline");	
 		            	}
 						
 		            },

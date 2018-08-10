@@ -234,35 +234,52 @@
 			}
 		}
 	});
-	jQuery("#master").jqGrid('navGrid','#pager',{add:false,edit:false,del:false,search: false});
+	jQuery("#master").jqGrid('navGrid','#pager',{add:false,edit:false,del:false,search: false,
+		beforeRefresh: function() {
+			if (edit){
+				ShowModalYesNoRefresh("Deshacer Cambios?", "Desea deshacer los cambios?");
+			}else{
+				$("#detaill").jqGrid("clearGridData");
+			}
+			return !edit;
+		}	
+	});
 	
 	//*******************************************************
 	// Grid Detaill
 	//*******************************************************
 	
+	var myEditOptions = {
+			aftersavefunc: function(rowid, response, options){
+				alert(rowid);				
+			}
+	};
+	
+	
 	$('#detaill').jqGrid('clearGridData');
 	jQuery("#detaill").jqGrid({
 	   	url:'RetrieveTraspasosD?doc=0',
 		datatype: "json",
-	   	colNames:["Nro Doc","Doc Compra","Posicion","Nro Material", "Descripcion","Cantidad","UM","Cantidad Recibida"],
+	   	colNames:["iId","Nro Doc","Doc Compra","Posicion","Nro Material", "Descripcion","Cantidad","UM","Cantidad Recibida"],
 	   	colModel:[
-	   		{name:'MBLNR',index:'MBLNR', editable: "hidden", width:80},
-	   		{name:'EBELN',index:'EBELN', editable: "hidden", width:95},
-	   		{name:'EBELP',index:'EBELP', key: true, width:50},
-	   		{name:'MATNR',index:'MATNR', editable: "hidden", width:80},
-	   		{name:'MAKTX',index:'MAKTX', width:250},
-	   		{name:'MENGE',index:'MENGE', width:50},
-	   		{name:'MEINS',index:'MEINS', width:50},
-	   		{name:"iCantUpdate", index:"iCantUpdate", width: 100, editable: true,  editoptions:{
+	   		{name:'iId',index:'iId', editable: "hidden", width:80, sortable: false, hidden: true, key:true},
+	   		{name:'MBLNR',index:'MBLNR', editable: "hidden", width:80, sortable: false},
+	   		{name:'EBELN',index:'EBELN', editable: "hidden", width:95, sortable: false},
+	   		{name:'EBELP',index:'EBELP', width:50, sortable: false, editable:"hidden"},
+	   		{name:'MATNR',index:'MATNR', editable: "hidden", width:80, sortable: false},
+	   		{name:'MAKTX',index:'MAKTX', width:250, sortable: false},
+	   		{name:'MENGE',index:'MENGE', width:50, sortable: false},
+	   		{name:'MEINS',index:'MEINS', width:50, sortable: false},
+	   		{name:"iCantUpdate", index:"iCantUpdate", formatter: removeCero, sortable: false, width: 100, editable: true,  editoptions:{
 	   				size: 15,
 	   				maxlenght: 10,
 	   				dataInit: function (element){
 	   					$(element).keypress(function(e){
 	                         if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
 	                             return false;
-	                          }					
+	                         }				
 	   					});
-	   				}
+	   				},
 	   		},editrules: {
 	   			custom: true,
 	   			custom_func: bValMaxValor
@@ -294,7 +311,7 @@
 	   		}
 	   		$("#detaill").editRow(id,true,null,editado);
 	   	}
-	}).navGrid('#pager_d',{add:false,edit:false,del:false, search:false});
+	}).navGrid('#pager_d',{add:false,edit:false,del:false, search:false, refresh:false});
 	
 	//***************************************************
 	//Dialog Deshacer cambios Grid
@@ -347,6 +364,7 @@
 			dialogClass: "myTitleClass",
 			buttons: {
 				Yes: function() {
+					edit=false;
 					$.ajax({
 						type: "POST",
 						url: "ClearPosiciones",
@@ -358,7 +376,7 @@
 					
 					//jQuery("#master").jqGrid('setGridParam',{url:"RetrieveTraspasos?tyb=P" ,page:1})
 					//.trigger('reloadGrid');				
-					edit=false;
+					
 					lastSel = null;
 					editCount = 0;
 					$("#enviar").button("disable");
@@ -376,6 +394,55 @@
 		});
 		
 	}
+	
+	
+	
+	
+	//***************************************************
+	//Dialog Deshacer cambios Refresh
+	//***************************************************
+	
+	function ShowModalYesNoRefresh (title, message){
+		var def;
+		$("#txtDeshacerCambio").html(message);
+		
+		$("#dialogChangeDocument").dialog({
+			modal: true,
+			title: title,
+			autoOpen: true,
+			dialogClass: "myTitleClass",
+			buttons: {
+				Yes: function() {
+					edit=false;
+					$.ajax({
+						type: "POST",
+						url: "ClearPosiciones",
+						complete: function (){
+							$("#master").trigger("reloadGrid");
+							$("#detaill").jqGrid("clearGridData");
+						}
+					});
+					//jQuery("#detaill").jqGrid("clearGridData");
+					
+					//jQuery("#master").jqGrid('setGridParam',{url:"RetrieveTraspasos?tyb=P" ,page:1})
+					//.trigger('reloadGrid');				
+					
+					lastSel = null;
+					editCount = 0;
+					$("#enviar").button("disable");
+					$("#txtDeshacerCambio").html("");
+					$(this).dialog("close");
+
+				},
+				No: function() {
+					$("#txtDeshacerCambio").html("");
+					$(this).dialog("close");					
+				}
+			}
+		});
+		
+	}
+	
 
 	//////////////////////////////////////////////////////////////
 	// Dialogo de Busqueda
@@ -430,9 +497,26 @@
 		$("#enviar").button("enable");
 		var r = jQuery.parseJSON(data.responseText);
 		edit = r.success;
+		var currentValue = $("#detaill").getGridParam('rowNum');
+		if(currentValue-1 > rowid){
+			rowid++
+			$("#detaill").setSelection(rowid,true);
+//			$("#detaill").editRow(rowid,true,null,editado);
+		}
 		return [true,""];
 	}
 	
+	//formatter para remover 0s
+	function removeCero (cellvalue, options, rowObject)
+	{
+	   // do something here
+	   if (cellvalue != "" && cellvalue != null){
+		   return Number(cellvalue);   
+	   }else{
+		   return "";
+	   }
+	   
+	}
 	
 	//boton de busqueda
 	$("#buscar").click(function(){
@@ -559,9 +643,7 @@
 	/////////////////////////////////////////////////
 
 	function clearSelection() {
-				jQuery("#detaill").jqGrid('setGridParam',{url: "empty.json", datatype: 'json'}); // the last setting is for demo purpose only
-				jQuery("#detaill").jqGrid('setCaption', 'Detail Grid:: none');
-				jQuery("#detaill").trigger("reloadGrid");
+		jQuery("#detaill").jqGrid("clearGridData");
 				
 	}
 	
@@ -569,10 +651,10 @@
 		var values;
 		var row;
 		values = $("#detaill").jqGrid("getRowData", lastSel);
-		if(Number(value) <= Number(values.MENGE)){
+		if((Number(value) <= Number(values.MENGE) && Number(value) > 0) || value == ""){
 			return [true,""];
 		}else{
-			return [false,"No puede recibir mas items que los especificados en el documento."];
+			return [false,"No puede recibir mas items que los especificados en el documento. Y debe ser mayor a 0"];
 		}
 		
 	}
