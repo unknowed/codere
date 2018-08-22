@@ -49,8 +49,13 @@
 		<td>
 			<label id="lblAlmacen" class="caption">Almacen: </label>		
 		</td>
+<!-- 		<td colspan="2"> -->
+<%-- 			<label id="lblAlmacenValue"><%= session.getAttribute("lgort") + " - " +  session.getAttribute("descripcion") %></label>		 --%>
+<!-- 		</td> -->
 		<td colspan="2">
-			<label id="lblAlmacenValue"><%= session.getAttribute("lgort") + " - " +  session.getAttribute("descripcion") %></label>		
+		<input type="hidden" id="hdSelectSala" name="hdSelectSala" value="<%= session.getAttribute("lgort")%>"/>
+			<select id="selectsalasDoc" name="selectsalasDoc" onchange="selectsalasDocOnchange()" >
+			</select>
 		</td>
 	</tr>
 	<tr>
@@ -233,6 +238,14 @@
 				.trigger('reloadGrid');			
 			}
 		}
+		,onPaging: function() {
+			if (edit){
+				ShowModalYesNoRefresh("Deshacer Cambios?", "Desea deshacer los cambios?");
+			}else{
+				$("#detaill").jqGrid("clearGridData");
+			}
+			return !edit;
+		}	
 	});
 	jQuery("#master").jqGrid('navGrid','#pager',{add:false,edit:false,del:false,search: false,
 		beforeRefresh: function() {
@@ -675,8 +688,173 @@
 	}
 	
 
+/*
+ * Ajustes para agregar combo de salas a la pantalla Home
+ *
+ */
+ // funcion ready para cargar el combo al iniciar findDoc.jsp
+ $(document).ready(function(){
+		GetSalas('post','SalasServlet');
+		//$("#hdSelectSala").val($("#selectsalasDoc").val());
+ });
+ 
+ // Funcion para cargar el select de Salas
+function GetSalas(method, action){
+	var frm = $("#login");
+	//alert(userval);
+	//mando todo al backend
+	$.ajax({
+        type:method,
+        url: action,
+        data: frm.serialize(),
+        success: function (data) {
+        	var r = jQuery.parseJSON(data);
+			//si hay data y no error...
+    		if(r.success){
+    			//alert( $("#hdSelectSala").val());
+    			//creo los options para el combobox
+        		var options = [];	
+        		for(i=0; i<r.result.length; i++){
+        			var arr = r.result[i].LGORT.split("-");
+        			if($("#hdSelectSala").val()===arr[0].trim())
+        				options.push("<option selected value='" + arr[0].trim() + "/" + r.result[i].WERKS + "/" + arr[1].trim() +"'>" + arr[1].trim() + "</option>");
+        			else
+        				options.push("<option value='" + arr[0].trim() + "/" + r.result[i].WERKS + "/" + arr[1].trim() +"'>" + arr[1].trim() + "</option>");
+        		}
+        		
+        		//los agrego al select y lo refresco en jquery para que los muestre en el control
+        		$("#selectsalasDoc").empty();
+        		$("#selectsalasDoc").append(options.join(""));
+         		$("#selectsalasDoc").selectmenu("refresh");
+         		//$("#selectsalasDoc").css( "display", "block" );
+        		//$("#dialog").dialog("open");
+         		$("#hdSelectSala").val($("#selectsalasDoc").val());
+        	}else{
+        		//en caso que de error aca cacheo los errores y muestro un mensaje apropiado.
+        		switch(parseInt(r.type)){
+        		case 1: //Sin datos el usuario no existe.
+                	$("#textoerror").html("<span class='ui-icon ui-icon-alert' style='float: left; margin-right: .3em;'></span><strong>Error:</strong> El usuario <strong>" + r.result.i_USUARIO + "</strong> no existe.");
+                	break;
+				default:
+                	$("#textoerror").html("<span class='ui-icon ui-icon-alert' style='float: left; margin-right: .3em;'></span><strong>Error:</strong> Error en SAP por favor contacte a su Administrador de Redes");
+        		}
+            	$("#error").css("display","inline");	
+        	}
+			
+        },
+        error: function (jqXHR, textStatus, message) {
+			alert("error");
+			alert(jqXHR.responseText);
+			alert(textStatus);
+			alert(message);
+			
+        } ,
+        complete: function(){
+        	$.unblockUI();
+        }
+    });
+}
+ 
+ 
 
+$("#selectsalasDoc" ).selectmenu({
+	  change: function( event, ui ) {
+		  //alert($("#hdSelectSala").val());
+		  var selectsalasDocAnterior=$("#hdSelectSala").val();
+		  var hdnusuario=$("#lblusuarioValue").text();
+			var selectsalasDoc= ui.item.value;
+			//alert(hdnusuario);
+			//alert(selectsalasDoc);
+			 $("#hdSelectSala").val(selectsalasDoc);
+			// alert( $("#hdSelectSala").val());
+			//$("#master").trigger("reloadGrid");
+			if (edit){
+				ShowModalYesNoRefreshSalas("Deshacer Cambios?", "Desea deshacer los cambios?",hdnusuario,selectsalasDoc,selectsalasDocAnterior);
+			}else{		
+				$.ajax({
+					  type: "POST",
+					  url: "sessionManager",
+					  data: {hdnusuario:hdnusuario,selectsalas:selectsalasDoc},
+					  success: function (data) {
+						  jQuery("#detaill").jqGrid("clearGridData");
+						  $("#master").trigger("reloadGrid");
+						  console.log('success');
+					  },
+					  error: function (error) {
+						  console.log('error');
+					  }
+					});
+			}
+	  }
+});
+ 
 
+//***************************************************
+//Dialog Deshacer cambios Refresh combo salas
+//***************************************************
+
+function ShowModalYesNoRefreshSalas (title, message,hdnusuario,selectsalasDoc,selectsalasDocAnterior){
+	var def;
+	$("#txtDeshacerCambio").html(message);
+	
+	$("#dialogChangeDocument").dialog({
+		modal: true,
+		title: title,
+		autoOpen: true,
+		dialogClass: "myTitleClass",
+		buttons: {
+			Yes: function() {
+				edit=false;
+				$.ajax({
+					type: "POST",
+					url: "ClearPosiciones",
+					complete: function (){
+						$("#master").trigger("reloadGrid");
+						$("#detaill").jqGrid("clearGridData");
+					}
+				});
+				//jQuery("#detaill").jqGrid("clearGridData");
+				
+				//jQuery("#master").jqGrid('setGridParam',{url:"RetrieveTraspasos?tyb=P" ,page:1})
+				//.trigger('reloadGrid');				
+				
+				lastSel = null;
+				editCount = 0;
+				$("#enviar").button("disable");
+				$("#txtDeshacerCambio").html("");
+				$(this).dialog("close");
+				
+				// despues de descartar los cambios cargar el combo
+				$.ajax({
+					  type: "POST",
+					  url: "sessionManager",
+					  data: {hdnusuario:hdnusuario,selectsalas:selectsalasDoc},
+					  success: function (data) {
+						  jQuery("#detaill").jqGrid("clearGridData");
+						  $("#master").trigger("reloadGrid");
+						  console.log('success');
+					  },
+					  error: function (error) {
+						  console.log('error');
+					  }
+					});
+
+			},
+			No: function() {
+				$("#txtDeshacerCambio").html("");
+				$(this).dialog("close");	
+				$("#selectsalasDoc").val(selectsalasDocAnterior);
+				//$( "#selectsalasDoc" ).selectmenu( selectsalasDocAnterior, "selected", true );
+				$('#selectsalasDoc > option[value="'+selectsalasDocAnterior+'"]').attr('selected', 'selected');
+			}
+		}
+	});
+	
+}
+
+ 
+ 
+ 
 </script>
 </body>
 </html>

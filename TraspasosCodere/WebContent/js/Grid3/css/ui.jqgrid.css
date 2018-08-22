@@ -52,6 +52,8 @@
 	border-left: 0 none;
 	border-right: 0 none;
 	border-top: 0 none;
+	background: #4CAF50;   
+    color: #ffffff; 
 }
 .ui-jqgrid-errorbar {
 	max-height: 100px;
@@ -104,6 +106,7 @@
 }
 .ui-jqdialog .ui-jqdialog-titlebar-ltr .ui-jqdialog-titlebar-close {
 	right: .3em;
+	background:white;
 }
 .ui-jqdialog .ui-jqdialog-titlebar-rtl .ui-jqdialog-titlebar-close {
 	left: .3em;
