@@ -90,6 +90,9 @@
 
 	 
 	<script>
+		$("input[type=text]").keyup(function(){
+		  $(this).val( $(this).val().toUpperCase() );
+		});
 		//****************************************************
 		// preparar todos los objetos con el look de jquery
 		//****************************************************

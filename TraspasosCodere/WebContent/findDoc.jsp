@@ -244,7 +244,7 @@
 			}else{
 				$("#detaill").jqGrid("clearGridData");
 			}
-			return !edit;
+			return  !edit;
 		}	
 	});
 	jQuery("#master").jqGrid('navGrid','#pager',{add:false,edit:false,del:false,search: false,
