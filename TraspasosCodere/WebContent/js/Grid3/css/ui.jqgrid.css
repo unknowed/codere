@@ -53,7 +53,7 @@
 	border-right: 0 none;
 	border-top: 0 none;
 	background: #4CAF50;
-    color: #ffffff;
+	color: white;
 }
 .ui-jqgrid-errorbar {
 	max-height: 100px;

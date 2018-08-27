@@ -54,7 +54,7 @@
 <!-- 		</td> -->
 		<td colspan="2">
 		<input type="hidden" id="hdSelectSala" name="hdSelectSala" value="<%= session.getAttribute("lgort")%>"/>
-			<select id="selectsalasDoc" name="selectsalasDoc" onchange="selectsalasDocOnchange()" >
+			<select id="selectsalasDoc" name="selectsalasDoc" data-prev-selected="1" >
 			</select>
 		</td>
 	</tr>
@@ -101,9 +101,11 @@
 	
 <!-- Dialogo para obtener texto cabecera obligatorio -->
 	<div id="dialogmensaje" title="Escriba un mensaje" align="center">
+	<fieldset>
 		<form id="frmmensaje" method="post" action="SendDocuments">
 			<textarea id="textCabecera" value="" class="ui-widget ui-state-default ui-corner-all" name="textCabecera"></textarea>
 		</form>		
+	</fieldset>
 	</div>
 	
 	
@@ -144,6 +146,7 @@
 	var lastSel;
 	var edit = false;
 	var docprevio;
+	var lastRowNum;// = $("#master").getGridParam("rowNum");
 	
 	//preparlo los controles del control group
 	$("#busquedagroup").controlgroup();
@@ -223,6 +226,8 @@
 			return !edit;
 		},
 		onSelectRow: function(ids) {
+			lastRowNum = $("#master").getGridParam("rowNum");
+			alert(lastRowNum);
 			$('#detaill').jqGrid('clearGridData');
 			if(ids == null) {
 				ids=0;
@@ -239,8 +244,10 @@
 			}
 		}
 		,onPaging: function() {
+		    
 			if (edit){
-				ShowModalYesNoRefresh("Deshacer Cambios?", "Desea deshacer los cambios?");
+				ShowModalYesNoRefreshRowNumChange("Deshacer Cambios?", "Desea deshacer los cambios?");
+				//return [false,""];
 			}else{
 				$("#detaill").jqGrid("clearGridData");
 			}
@@ -449,7 +456,7 @@
 				},
 				No: function() {
 					$("#txtDeshacerCambio").html("");
-					$(this).dialog("close");					
+					$(this).dialog("close");
 				}
 			}
 		});
@@ -759,13 +766,33 @@ function GetSalas(method, action){
 
 $("#selectsalasDoc" ).selectmenu({
 	  change: function( event, ui ) {
+		  
+// 		  var someCondition = false; // hardcoded for now
+          
+//           // Undo new selection
+//           if ( someCondition ) {
+//         	 //alert(someCondition);
+//               var prevIdx = $('select#selectsalasDoc').attr('data-prev-selected');
+//               //alert(prevIdx);
+//              // $('select#selectsalasDoc').selectmenu("index", prevIdx);
+             
+// 				$('#selectsalasDoc').val(prevIdx);
+// 				$('#selectsalasDoc').selectmenu('refresh');
+//               return;
+//           }
+          
+//           // Save new index
+//          // var idx = $('select#selectsalasDoc').selectmenu("index");
+//           var idx= $('#selectsalasDoc').val();
+//           $('select#selectsalasDoc').data('data-prev-selected', idx);
+		  
 		  //alert($("#hdSelectSala").val());
 		  var selectsalasDocAnterior=$("#hdSelectSala").val();
 		  var hdnusuario=$("#lblusuarioValue").text();
 			var selectsalasDoc= ui.item.value;
 			//alert(hdnusuario);
 			//alert(selectsalasDoc);
-			 $("#hdSelectSala").val(selectsalasDoc);
+			// $("#hdSelectSala").val(selectsalasDoc);
 			// alert( $("#hdSelectSala").val());
 			//$("#master").trigger("reloadGrid");
 			if (edit){
@@ -785,7 +812,25 @@ $("#selectsalasDoc" ).selectmenu({
 					  }
 					});
 			}
+			//return [false,""];
+			
+			var someCondition = true; // hardcoded for now
+			// Undo new selection
+			if ( someCondition ) {
+			    var prevIdx = $('selectsalasDoc').attr('data-prev-selected');
+			    $('selectsalasDoc').selectmenu("index", prevIdx);
+			    return;
+			}
+
+			// Save new index
+			var idx = $('selectsalasDoc').selectmenu("index");
+			$('selectsalasDoc').data('data-prev-selected', idx);
 	  }
+// 	  ,
+// 	  select: function( event, ui ) {
+// 		  return [false,''];
+// 		  alert('select event'+ui.item.value);
+// 	  }
 });
  
 
@@ -838,14 +883,28 @@ function ShowModalYesNoRefreshSalas (title, message,hdnusuario,selectsalasDoc,se
 						  console.log('error');
 					  }
 					});
+				
+				// guardo el index selecionado
+				 var idx= $('#selectsalasDoc').val();
+		          $('select#selectsalasDoc').data('data-prev-selected', idx);
+		          $("#hdSelectSala").val(selectsalasDoc);
 
 			},
 			No: function() {
 				$("#txtDeshacerCambio").html("");
 				$(this).dialog("close");	
-				$("#selectsalasDoc").val(selectsalasDocAnterior);
-				//$( "#selectsalasDoc" ).selectmenu( selectsalasDocAnterior, "selected", true );
-				$('#selectsalasDoc > option[value="'+selectsalasDocAnterior+'"]').attr('selected', 'selected');
+// 				$("#selectsalasDoc").val(selectsalasDocAnterior);
+// 				//$( "#selectsalasDoc" ).selectmenu( selectsalasDocAnterior, "selected", true );
+// 				$('#selectsalasDoc > option[value="'+selectsalasDocAnterior+'"]').attr('selected', 'selected');
+				 var prevIdx = $('select#selectsalasDoc').attr('data-prev-selected');
+	              //alert(prevIdx);
+	             // $('select#selectsalasDoc').selectmenu("index", prevIdx);
+	             
+					//$('#selectsalasDoc').val(prevIdx);
+					$('#selectsalasDoc').val(selectsalasDocAnterior);
+					$('#selectsalasDoc').selectmenu('refresh');
+					 $("#hdSelectSala").val(selectsalasDocAnterior);
+	              return;
 			}
 		}
 	});
@@ -853,6 +912,51 @@ function ShowModalYesNoRefreshSalas (title, message,hdnusuario,selectsalasDoc,se
 }
 
  
+//***************************************************
+//Dialog Deshacer cambios Refresh al cambiar numero de reglonde por pagina
+//***************************************************
+
+function ShowModalYesNoRefreshRowNumChange (title, message){
+	var def;
+	$("#txtDeshacerCambio").html(message);
+	
+	$("#dialogChangeDocument").dialog({
+		modal: true,
+		title: title,
+		autoOpen: true,
+		dialogClass: "myTitleClass",
+		buttons: {
+			Yes: function() {
+				edit=false;
+				$.ajax({
+					type: "POST",
+					url: "ClearPosiciones",
+					complete: function (){
+						$("#master").trigger("reloadGrid");
+						$("#detaill").jqGrid("clearGridData");
+					}
+				});
+				//jQuery("#detaill").jqGrid("clearGridData");
+				
+				//jQuery("#master").jqGrid('setGridParam',{url:"RetrieveTraspasos?tyb=P" ,page:1})
+				//.trigger('reloadGrid');				
+				
+				lastSel = null;
+				editCount = 0;
+				$("#enviar").button("disable");
+				$("#txtDeshacerCambio").html("");
+				$(this).dialog("close");
+
+			},
+			No: function() {
+				$("#txtDeshacerCambio").html("");
+				$(this).dialog("close");
+			}
+		}
+	});
+	
+}
+
  
  
 </script>
