@@ -209,7 +209,7 @@
 	    },
 		multiselect: false,
 		onSortCol : clearSelection,
-		onPaging : clearSelection,
+		//onPaging : clearSelection,
 		caption: "Documentos de Traspasos",
 	    loadComplete: function(data){
 	    	if($("#master").getGridParam("records") == 0){
@@ -227,7 +227,7 @@
 		},
 		onSelectRow: function(ids) {
 			lastRowNum = $("#master").getGridParam("rowNum");
-			alert(lastRowNum);
+			//alert(lastRowNum);
 			$('#detaill').jqGrid('clearGridData');
 			if(ids == null) {
 				ids=0;
@@ -243,15 +243,33 @@
 				.trigger('reloadGrid');			
 			}
 		}
-		,onPaging: function() {
-		    
+		,onPaging: function(pgButton) {
+// 			//$(this).onchange(function(){
+// 				//alert($(this).html());
+// // 				var selectRowNum=$("#select [class='ui-widget-content ui-pg-selbox']");
+// // 				alert(selectRowNum.html());
+// 				$dataFiled=$("#pager_center");
+// 				alert($dataFiled.html());
+// // 				$field = $dataFiled.find("select option:selected");
+// // 				alert($field.html());
+// 				var str="select";
+// 				alert(str);
+// 				$field = $dataFiled.find(str);//.find("[value="+lastRowNum+"]");
+// 				$field.val(lastRowNum);
+// 				alert($field.html());
+// 			//	});
+// 		   // return 'stop';
+ 		  // alert(pgButton);
+		  
 			if (edit){
 				ShowModalYesNoRefreshRowNumChange("Deshacer Cambios?", "Desea deshacer los cambios?");
 				//return [false,""];
 			}else{
 				$("#detaill").jqGrid("clearGridData");
 			}
-			return  !edit;
+			//lastRowNum=$("#master").getGridParam('rowNum');
+			return !edit;
+			//return 'stop';
 		}	
 	});
 	jQuery("#master").jqGrid('navGrid','#pager',{add:false,edit:false,del:false,search: false,
@@ -946,11 +964,37 @@ function ShowModalYesNoRefreshRowNumChange (title, message){
 				$("#enviar").button("disable");
 				$("#txtDeshacerCambio").html("");
 				$(this).dialog("close");
+				
+// 				lastRowNum=$("#master").getGridParam('rowNum');
+// 				alert(lastRowNum);
 
 			},
 			No: function() {
 				$("#txtDeshacerCambio").html("");
 				$(this).dialog("close");
+				//lastRowNum
+				//$("#master").setGridParam(rowNum,lastRowNum);
+				jQuery("#master").setGridParam({rowNum:lastRowNum});//.trigger("reloadGrid");
+				//alert(lastRowNum);
+				// ui-widget-content ui-pg-selbox
+				//var selectRowNum=$('.ui-widget-content ui-pg-selbox');
+				//alert(selectRowNum.html());
+// 				var paper_id=$('#pager_center');
+// 				alert(paper_id.html());
+// 				jQuery("#master").jqGrid('setGridParam',{rowNum:lastRowNum}).trigger("reloadGrid");
+// 				alert(lastRowNum);
+				
+				$dataFiled=$("#pager_center");
+				//alert($dataFiled.html());
+// 				$field = $dataFiled.find("select option:selected");
+// 				alert($field.html());
+				var str="select";
+				//alert(str);
+				$field = $dataFiled.find(str);//.find("[value="+lastRowNum+"]");
+				$field.val(lastRowNum);
+				//alert($field.html());
+				
+				return 'stop';
 			}
 		}
 	});
