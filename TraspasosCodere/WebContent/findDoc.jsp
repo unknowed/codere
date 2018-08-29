@@ -146,7 +146,7 @@
 	var lastSel;
 	var edit = false;
 	var docprevio;
-	var lastRowNum;// = $("#master").getGridParam("rowNum");
+	var lastRowNum=10;// = $("#master").getGridParam("rowNum");
 	
 	//preparlo los controles del control group
 	$("#busquedagroup").controlgroup();
@@ -226,7 +226,7 @@
 			return !edit;
 		},
 		onSelectRow: function(ids) {
-			lastRowNum = $("#master").getGridParam("rowNum");
+			
 			//alert(lastRowNum);
 			$('#detaill').jqGrid('clearGridData');
 			if(ids == null) {
@@ -259,13 +259,18 @@
 // 				alert($field.html());
 // 			//	});
 // 		   // return 'stop';
- 		  // alert(pgButton);
+ 		  //alert(pgButton);
 		  
 			if (edit){
 				ShowModalYesNoRefreshRowNumChange("Deshacer Cambios?", "Desea deshacer los cambios?");
 				//return [false,""];
 			}else{
 				$("#detaill").jqGrid("clearGridData");
+				//lastRowNum = $("#master").getGridParam("rowNum");
+				lastRowNum=$('.ui-pg-selbox').val();
+				//if (pgButton == 'records') {
+				         //   alert('records'+$('.ui-pg-selbox').val());
+				      //  }
 			}
 			//lastRowNum=$("#master").getGridParam('rowNum');
 			return !edit;
@@ -965,8 +970,12 @@ function ShowModalYesNoRefreshRowNumChange (title, message){
 				$("#txtDeshacerCambio").html("");
 				$(this).dialog("close");
 				
-// 				lastRowNum=$("#master").getGridParam('rowNum');
-// 				alert(lastRowNum);
+ 				//lastRowNum=$("#master").getGridParam('rowNum');
+ 				//alert(lastRowNum);
+ 				lastRowNum=$('.ui-pg-selbox').val();
+ 				//if (pgButton == 'records') {
+ 				         //   alert('records'+$('.ui-pg-selbox').val());
+ 				    //    }
 
 			},
 			No: function() {
