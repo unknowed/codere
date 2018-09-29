@@ -101,11 +101,12 @@ public class RetrieveTraspasos extends HttpServlet {
 		try {
 			res = p.SI_VTRASPASOS_SO(req);
 			
-
 			totalrows = res.getSTOCCAB().length;
-
+			
 			//hago el paginado
 			if(totalrows > 0) {
+				if(page<=0)
+					page=1;
 				int contador = ((page - 1) * rows) ; 
 				
 				while( contador < totalrows && contador < (page * rows)) {

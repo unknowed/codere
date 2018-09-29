@@ -370,7 +370,7 @@
 			autoOpen: true,
 			dialogClass: "myTitleClass",
 			buttons: {
-				Yes: function() {
+				Si: function() {
 					$("#master").setSelection(rowid,true);
 					$.ajax({
 						type: "POST",
@@ -406,7 +406,7 @@
 			autoOpen: true,
 			dialogClass: "myTitleClass",
 			buttons: {
-				Yes: function() {
+				Si: function() {
 					edit=false;
 					$.ajax({
 						type: "POST",
@@ -455,7 +455,7 @@
 			autoOpen: true,
 			dialogClass: "myTitleClass",
 			buttons: {
-				Yes: function() {
+				Si: function() {
 					edit=false;
 					$.ajax({
 						type: "POST",
@@ -871,7 +871,7 @@ function ShowModalYesNoRefreshSalas (title, message,hdnusuario,selectsalasDoc,se
 		autoOpen: true,
 		dialogClass: "myTitleClass",
 		buttons: {
-			Yes: function() {
+			Si: function() {
 				edit=false;
 				$.ajax({
 					type: "POST",
@@ -949,7 +949,7 @@ function ShowModalYesNoRefreshRowNumChange (title, message){
 		autoOpen: true,
 		dialogClass: "myTitleClass",
 		buttons: {
-			Yes: function() {
+		    Si: function() {
 				edit=false;
 				$.ajax({
 					type: "POST",
